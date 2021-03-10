@@ -9,7 +9,7 @@ describe("Tic Tac Toe", () => {
   });
   test("should be able to click tile", () => {
     const { getByTestId, getByText } = render(<TicTacToe />);
-    fireEvent.click(getByTestId("tile-0"));
+    fireEvent.click(getByTestId("tile-row0-col0"));
     getByText("X");
   });
 });
