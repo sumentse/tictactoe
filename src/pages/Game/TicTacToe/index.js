@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { v4 as uuid } from "uuid";
 import useStyles from "./TicTacToe.styles";
 import { cloneDeep } from "lodash";
+import EngineAPI from "../../../services/api/engine";
 
 const INITIAL_GAMEBOARD = [
   ["", "", ""],
@@ -20,6 +21,23 @@ const Game = () => {
   const [winner, setWinner] = useState(null);
   const counterRef = useRef(0);
   const classes = useStyles();
+
+  useEffect(() => {
+    const getComputerNextMove = async () => {
+      try {
+        const response = await EngineAPI.post(board);
+        setIsPlayerNext(!isPlayerNext);
+        setBoard(response.data.board);
+        counterRef.current++;
+      } catch (err) {
+        console.log("some error occured");
+      }
+    };
+
+    if (!isPlayerNext && counterRef.current < 9) {
+      getComputerNextMove();
+    }
+  }, [isPlayerNext, board]);
 
   const handleClick = (row, col) => {
     if (isPlayerNext && !winner) {
