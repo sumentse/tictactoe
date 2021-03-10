@@ -23,12 +23,17 @@ const NavBar = () => {
   }, [location]);
 
   return (
-    <AppBar position="relative">
+    <AppBar position="relative" data-testid="nav-bar">
       <Toolbar>
-        <Typography variant="h6" color="inherit" className={classes.title}>
+        <Typography
+          data-testid="navbar-title"
+          variant="h6"
+          color="inherit"
+          className={classes.title}
+        >
           {title}
         </Typography>
-        <Button variant="outlined" onClick={handleLogOut}>
+        <Button data-testid="logout" variant="outlined" onClick={handleLogOut}>
           Logout
         </Button>
       </Toolbar>
