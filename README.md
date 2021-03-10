@@ -10,12 +10,14 @@
 ## General Architecture
 
 The general architecture of this application is going to be monolithic following a client-server pattern. We will follow the conventional folder structure for building a React application. In order to do this, we will create folders that separate business logic concerns. The structure of this will look like this.
-• components
-• pages
-• context
-• pages
-• services
-• utils
+
+- components
+- pages
+- context
+- pages
+- services
+- utils
+
 In each of these folders, we will group it by features so it can be navigated easily. For example, the Signup page and the Game page are different from one another. We would have this in the pages folder. After I set up the folder structure we should have then I think about what library will be needed to make the application work. I used react-router for helping with keeping the UI in sync with the URL and kept it at the app.js level and makes it easier to reference to go there to add new additional routes.
 
 For the design system, I used Material UI as it can save time in development to make the UI nice and clean. It's preloaded with commonly used components. I also added commonly used libraries like Axios for HTTP requests, lodash as a utility helper, and clsx to help with CSS conditioning logic as it's faster and smaller than the alternative classnames library. For ReactJS, we will use a hook-based pattern as it lets you use functions instead of having to switch between classes, high-order components, and render props. It's also better for minifying than the equivalent code of using classes.
