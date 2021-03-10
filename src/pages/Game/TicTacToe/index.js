@@ -38,9 +38,17 @@ const Game = () => {
     }
   };
 
-  const newGame = () => {};
+  const newGame = () => {
+    counterRef.current = 0;
+    setBoard(INITIAL_GAMEBOARD);
+    setIsPlayerNext(true);
+    setWinner(null);
+  };
 
-  const resetScoreBoard = () => {};
+  const resetScoreBoard = () => {
+    setPlayerScore(0);
+    setComputerScore(0);
+  };
 
   const buildBoard = () => {
     const tiles = (data, rowIndex) =>

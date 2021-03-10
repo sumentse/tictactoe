@@ -1,5 +1,5 @@
 import { makeStyles, colors } from "@material-ui/core";
-const { grey, yellow, orange, blue } = colors;
+const { grey, green, orange, blue } = colors;
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => {
       width: "200px",
     },
     availableMoves: {
-      background: yellow[500],
+      background: green[600],
     },
     tile: {
       height: "50px",
