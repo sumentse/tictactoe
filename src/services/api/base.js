@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "https://d9u7x85vp9.execute-api.us-east-2.amazonaws.com/production",
+  baseURL: process.env.REACT_APP_API,
 });
 
 apiClient.interceptors.request.use(

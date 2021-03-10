@@ -23,12 +23,12 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   );
 };
 
-const DefaultRoutes = ({ location }) => {
+const DefaultRoutes = () => {
   return (
     <div>
       <NavBar />
       <PrivateRoute path="/game/tictactoe" component={TicTacToe} />
-      <Redirect from="/game" to={"/game/tictactoe"} />
+      <Redirect from="/game" to="/game/tictactoe" />
     </div>
   );
 };
