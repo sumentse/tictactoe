@@ -99,6 +99,46 @@ const Game = () => {
     return board.map(tiles);
   };
 
+  const calculateWinner = (squares) => {
+    if (winner) return null;
+    // makes it easier to deal and read with instead of doing it in 2d dimension
+    const flattenSquares = squares.flat();
+    // all possible winning combinations (3 horizontal, 3 vertical, 2 diagonal)
+    const lines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+    for (let i = 0, lineTotals = lines.length; i < lineTotals; i++) {
+      const [a, b, c] = lines[i];
+      if (
+        flattenSquares[a] &&
+        flattenSquares[a] === flattenSquares[b] &&
+        flattenSquares[a] === flattenSquares[c]
+      ) {
+        const winningLetter = flattenSquares[a];
+
+        if (winningLetter === "X") {
+          setPlayerScore(playerScore + 1);
+        } else {
+          setComputerScore(computerScore + 1);
+        }
+        setWinner(winningLetter);
+      }
+    }
+    if (counterRef.current === 9 && !winner) {
+      setWinner("draw");
+    }
+    return null;
+  };
+
+  calculateWinner(board);
+
   return (
     <Container className={classes.container} data-testid="tic-tac-toe">
       <Box p={2}>
