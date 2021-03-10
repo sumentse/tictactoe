@@ -16,7 +16,7 @@ const INITIAL_GAMEBOARD = [
 
 const TILE_INDEX_POSITION = mapTilePosition(3, 3);
 
-const Game = () => {
+const TicTacToe = () => {
   const [board, setBoard] = useState(INITIAL_GAMEBOARD);
   const [computerScore, setComputerScore] = useState(0);
   const [playerScore, setPlayerScore] = useState(0);
@@ -269,4 +269,4 @@ const Game = () => {
   );
 };
 
-export default Game;
+export default TicTacToe;
