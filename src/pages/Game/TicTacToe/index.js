@@ -137,11 +137,33 @@ const Game = () => {
     return null;
   };
 
+  const renderBoardAnnoucement = () => {
+    let message = "";
+    if (winner === "draw") {
+      message = "Game is a draw";
+    }
+
+    if (winner === "X") {
+      message = "Player is the winner!";
+    }
+
+    if (winner === "O") {
+      message = "AI is the winner!";
+    }
+
+    return (
+      <Typography className={classes.baseTypography} variant="h5" align="center">
+        {message}
+      </Typography>
+    );
+  };
+
   calculateWinner(board);
 
   return (
     <Container className={classes.container} data-testid="tic-tac-toe">
       <Box p={2}>
+        <Box>{renderBoardAnnoucement()}</Box>
         <Box mt={1}>
           <Typography className={classes.baseTypography} variant="h5" align="center">
             🙂 {playerScore} : {computerScore} 🤖
