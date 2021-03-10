@@ -1,8 +1,9 @@
 import { Box, Container, Grid, Paper, Typography, Button, LinearProgress } from "@material-ui/core";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import clsx from "clsx";
 import { v4 as uuid } from "uuid";
 import useStyles from "./TicTacToe.styles";
+import { cloneDeep } from "lodash";
 
 const INITIAL_GAMEBOARD = [
   ["", "", ""],
@@ -17,9 +18,25 @@ const Game = () => {
   const [isPlayerNext, setIsPlayerNext] = useState(true);
   const [showSuggestMove, setShowSuggestMove] = useState(false);
   const [winner, setWinner] = useState(null);
+  const counterRef = useRef(0);
   const classes = useStyles();
 
-  const handleClick = (row, col) => {};
+  const handleClick = (row, col) => {
+    if (isPlayerNext && !winner) {
+      // fixes a reference issue with using 2d arrays [...board] on reseting the game
+      const boardCopy = cloneDeep(board);
+
+      // handle the case when that tile is already taken
+      if (boardCopy[row][col]) {
+        return;
+      }
+
+      boardCopy[row][col] = "X";
+      setBoard(boardCopy);
+      setIsPlayerNext(!isPlayerNext);
+      counterRef.current++;
+    }
+  };
 
   const newGame = () => {};
 
