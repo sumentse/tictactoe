@@ -1,5 +1,5 @@
 import { makeStyles, colors } from "@material-ui/core";
-const { grey, green, orange, blue } = colors;
+const { grey, green, orange, blue, red } = colors;
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -47,6 +47,18 @@ const useStyles = makeStyles((theme) => {
     },
     oLetter: {
       color: blue[500],
+    },
+    error: {
+      background: red[200],
+    },
+    winningLine: {
+      background: red[200],
+      animation: `$blink .5s steps(5, start) 3`,
+    },
+    "@keyframes blink": {
+      to: {
+        visibility: "hidden",
+      },
     },
   };
 });

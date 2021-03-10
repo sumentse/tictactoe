@@ -5,12 +5,16 @@ import { v4 as uuid } from "uuid";
 import useStyles from "./TicTacToe.styles";
 import { cloneDeep } from "lodash";
 import EngineAPI from "../../../services/api/engine";
+import { Alert } from "@material-ui/lab";
+import { mapTilePosition } from "../../../utils/game";
 
 const INITIAL_GAMEBOARD = [
   ["", "", ""],
   ["", "", ""],
   ["", "", ""],
 ];
+
+const TILE_INDEX_POSITION = mapTilePosition(3, 3);
 
 const Game = () => {
   const [board, setBoard] = useState(INITIAL_GAMEBOARD);
@@ -19,6 +23,8 @@ const Game = () => {
   const [isPlayerNext, setIsPlayerNext] = useState(true);
   const [showSuggestMove, setShowSuggestMove] = useState(false);
   const [winner, setWinner] = useState(null);
+  const [winningLine, setWinningLine] = useState([]);
+  const [error, setError] = useState("");
   const counterRef = useRef(0);
   const classes = useStyles();
 
@@ -26,11 +32,11 @@ const Game = () => {
     const getComputerNextMove = async () => {
       try {
         const response = await EngineAPI.post(board);
-        setIsPlayerNext(!isPlayerNext);
+        setIsPlayerNext((prevState) => !prevState);
         setBoard(response.data.board);
         counterRef.current++;
       } catch (err) {
-        console.log("some error occured");
+        setError("An error has occured");
       }
     };
 
@@ -41,16 +47,17 @@ const Game = () => {
 
   const handleClick = (row, col) => {
     if (isPlayerNext && !winner) {
-      // fixes a reference issue with using 2d arrays [...board] on reseting the game
-      const boardCopy = cloneDeep(board);
-
       // handle the case when that tile is already taken
-      if (boardCopy[row][col]) {
+      if (board[row][col]) {
         return;
       }
+      setBoard((prevBoard) => {
+        // fixes a reference issue with using 2d arrays [...board] on reseting the game
+        const boardCopy = cloneDeep(prevBoard);
 
-      boardCopy[row][col] = "X";
-      setBoard(boardCopy);
+        boardCopy[row][col] = "X";
+        return boardCopy;
+      });
       setIsPlayerNext(!isPlayerNext);
       counterRef.current++;
     }
@@ -59,7 +66,9 @@ const Game = () => {
   const newGame = () => {
     counterRef.current = 0;
     setBoard(INITIAL_GAMEBOARD);
+    setError("");
     setIsPlayerNext(true);
+    setWinningLine([]);
     setWinner(null);
   };
 
@@ -69,34 +78,37 @@ const Game = () => {
   };
 
   const buildBoard = () => {
-    const tiles = (data, rowIndex) =>
-      data.map((tile, tileIndex) => {
-        return (
-          <Grid key={uuid()} item xs={4} data-testid={`tile-row${rowIndex}-col${tileIndex}`}>
-            <Paper
-              className={clsx(classes.paper, {
-                [classes.availableMoves]: showSuggestMove && !board[rowIndex][tileIndex],
-              })}
-              elevation={0}
-              onClick={() => handleClick(rowIndex, tileIndex)}
-            >
-              <Box p={2}>
-                <Typography
-                  className={clsx(classes.tile, {
-                    [classes.xLetter]: tile === "X",
-                    [classes.oLetter]: tile === "O",
-                  })}
-                  variant="h3"
-                  align="center"
-                >
-                  {tile}
-                </Typography>
-              </Box>
-            </Paper>
-          </Grid>
-        );
-      });
-    return board.map(tiles);
+    const tiles = (tile, index) => {
+      // reference the 2d array and keeping this simple
+      const { row, col } = TILE_INDEX_POSITION.get(index);
+      return (
+        <Grid key={uuid()} item xs={4} data-testid={`tile-row${row}-col${col}`}>
+          <Paper
+            className={clsx({
+              [classes.paper]: !board[row][col] && !winner,
+              [classes.availableMoves]: showSuggestMove && !board[row][col],
+              [classes.winningLine]: winningLine.indexOf(index) !== -1,
+            })}
+            elevation={0}
+            onClick={() => handleClick(row, col)}
+          >
+            <Box p={2}>
+              <Typography
+                className={clsx(classes.tile, {
+                  [classes.xLetter]: tile === "X",
+                  [classes.oLetter]: tile === "O",
+                })}
+                variant="h3"
+                align="center"
+              >
+                {tile}
+              </Typography>
+            </Box>
+          </Paper>
+        </Grid>
+      );
+    };
+    return board.flat().map(tiles);
   };
 
   const calculateWinner = (squares) => {
@@ -124,10 +136,11 @@ const Game = () => {
         const winningLetter = flattenSquares[a];
 
         if (winningLetter === "X") {
-          setPlayerScore(playerScore + 1);
+          setPlayerScore((prevScore) => prevScore + 1);
         } else {
-          setComputerScore(computerScore + 1);
+          setComputerScore((prevScore) => prevScore + 1);
         }
+        setWinningLine([a, b, c]);
         setWinner(winningLetter);
       }
     }
@@ -163,14 +176,19 @@ const Game = () => {
   return (
     <Container className={classes.container} data-testid="tic-tac-toe">
       <Box p={2}>
-        <Box>{renderBoardAnnoucement()}</Box>
         <Box mt={1}>
           <Typography className={classes.baseTypography} variant="h5" align="center">
             🙂 {playerScore} : {computerScore} 🤖
           </Typography>
+          <Box mt={1}>{renderBoardAnnoucement()}</Box>
           <LinearProgress
             className={clsx(classes.progress, { [classes.visible]: !isPlayerNext && !winner })}
           />
+          {error && (
+            <Alert severity="error" className={classes.error}>
+              {error}
+            </Alert>
+          )}
         </Box>
         <Box mt={3}>
           <Grid container justify="center">
