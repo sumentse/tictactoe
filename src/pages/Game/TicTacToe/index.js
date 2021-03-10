@@ -40,10 +40,10 @@ const Game = () => {
       }
     };
 
-    if (!isPlayerNext && counterRef.current < 9) {
+    if (!isPlayerNext && counterRef.current < 9 && !winner) {
       getComputerNextMove();
     }
-  }, [isPlayerNext, board]);
+  }, [isPlayerNext, board, winner]);
 
   // temporary show the suggested moves
   useEffect(() => {
@@ -93,7 +93,7 @@ const Game = () => {
       // reference the 2d array and keeping this simple
       const { row, col } = TILE_INDEX_POSITION.get(index);
       return (
-        <Grid key={uuid()} item xs={4} data-testid={`tile-row${row}-col${col}`}>
+        <Grid key={uuid()} item xs={4}>
           <Paper
             className={clsx({
               [classes.paper]: !board[row][col] && !winner,
@@ -105,6 +105,7 @@ const Game = () => {
           >
             <Box p={2}>
               <Typography
+                data-testid={`tile-row${row}-col${col}`}
                 className={clsx(classes.tile, {
                   [classes.xLetter]: tile === "X",
                   [classes.oLetter]: tile === "O",
@@ -177,6 +178,7 @@ const Game = () => {
 
     return (
       <Typography
+        data-testid="annoucement"
         className={clsx(classes.baseTypography, classes.annoucement)}
         variant="h5"
         align="center"
@@ -192,7 +194,12 @@ const Game = () => {
     <Container className={classes.container} data-testid="tic-tac-toe">
       <Box p={2}>
         <Box mt={1}>
-          <Typography className={classes.baseTypography} variant="h5" align="center">
+          <Typography
+            data-testid="score-board"
+            className={classes.baseTypography}
+            variant="h5"
+            align="center"
+          >
             🙂 {playerScore} : {computerScore} 🤖
           </Typography>
           <Box mt={1}>{renderBoardAnnoucement()}</Box>
@@ -224,6 +231,7 @@ const Game = () => {
         <Grid container direction="column" justify="center" alignItems="center">
           <Grid item xs={12}>
             <Button
+              data-testid="suggest-move"
               variant="contained"
               className={classes.button}
               color="primary"
@@ -235,6 +243,7 @@ const Game = () => {
           </Grid>
           <Grid item xs={12}>
             <Button
+              data-testid="new-game"
               variant="contained"
               className={classes.button}
               color="secondary"
@@ -245,6 +254,7 @@ const Game = () => {
           </Grid>
           <Grid item xs={12}>
             <Button
+              data-testid="reset-score"
               variant="outlined"
               className={classes.button}
               color="secondary"
