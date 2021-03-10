@@ -7,6 +7,9 @@ const useStyles = makeStyles((theme) => {
       background: grey[200],
       minHeight: "100vh",
     },
+    annoucement: {
+      height: "30px",
+    },
     board: {
       width: "300px",
     },

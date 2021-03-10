@@ -45,6 +45,17 @@ const Game = () => {
     }
   }, [isPlayerNext, board]);
 
+  // temporary show the suggested moves
+  useEffect(() => {
+    let timer;
+    if (showSuggestMove) {
+      timer = setTimeout(() => setShowSuggestMove((prevState) => !prevState), 3000);
+    }
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [showSuggestMove]);
+
   const handleClick = (row, col) => {
     if (isPlayerNext && !winner) {
       // handle the case when that tile is already taken
@@ -165,7 +176,11 @@ const Game = () => {
     }
 
     return (
-      <Typography className={classes.baseTypography} variant="h5" align="center">
+      <Typography
+        className={clsx(classes.baseTypography, classes.annoucement)}
+        variant="h5"
+        align="center"
+      >
         {message}
       </Typography>
     );
@@ -213,7 +228,7 @@ const Game = () => {
               className={classes.button}
               color="primary"
               disabled={!!winner}
-              onClick={() => setShowSuggestMove(!showSuggestMove)}
+              onClick={() => setShowSuggestMove((prevState) => !prevState)}
             >
               Suggest Move
             </Button>
