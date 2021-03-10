@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { AuthContext } from "./context/Auth";
 import SignUp from "./pages/Auth/SignUp";
 import LoadingScreen from "./components/LoadingScreen";
-const Game = lazy(() => import("./pages/Game"));
+const TicTacToe = lazy(() => import("./pages/Game/TicTacToe"));
 const NavBar = lazy(() => import("./components/NavBar"));
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -27,7 +27,8 @@ const DefaultRoutes = ({ location }) => {
   return (
     <div>
       <NavBar />
-      <PrivateRoute path="/game" component={Game} />
+      <PrivateRoute path="/game/tictactoe" component={TicTacToe} />
+      <Redirect from="/game" to={"/game/tictactoe"} />
     </div>
   );
 };

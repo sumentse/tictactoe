@@ -1,5 +1,5 @@
 const NavBarConfigs = {
-  "/game": "Tic Tac Toe",
+  "/game/tictactoe": "Tic Tac Toe",
 };
 
 export default NavBarConfigs;

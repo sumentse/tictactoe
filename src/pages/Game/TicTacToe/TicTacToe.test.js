@@ -1,14 +1,14 @@
 import { fireEvent, render } from "@testing-library/react";
-import Game from ".";
+import TicTacToe from ".";
 
 describe("Tic Tac Toe", () => {
   test("should render the component", () => {
-    const { queryByTestId } = render(<Game />);
+    const { queryByTestId } = render(<TicTacToe />);
     expect(queryByTestId("tic-tac-toe")).toBeTruthy();
     expect(queryByTestId("grid-board").children.length).toBe(9);
   });
   test("should be able to click tile", () => {
-    const { getByTestId, getByText } = render(<Game />);
+    const { getByTestId, getByText } = render(<TicTacToe />);
     fireEvent.click(getByTestId("tile-0"));
     getByText("X");
   });
