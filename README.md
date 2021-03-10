@@ -1,70 +1,33 @@
-# Getting Started with Create React App
+# Tic Tac Toe
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Installation
 
-## Available Scripts
+1. `npm install`
+2. Rename .env.sample to .env file
+3. Paste the AWS link where it says `INSERT AWS LINK HERE`
+4. Run the app `npm start`
 
-In the project directory, you can run:
+## General Architecture
 
-### `yarn start`
+The general architecture of this application is going to be monolithic following a client-server pattern. We will follow the conventional folder structure for building a React application. In order to do this, we will create folders that separate business logic concerns. The structure of this will look like this.
+• components
+• pages
+• context
+• pages
+• services
+• utils
+In each of these folders, we will group it by features so it can be navigated easily. For example, the Signup page and the Game page are different from one another. We would have this in the pages folder. After I set up the folder structure we should have then I think about what library will be needed to make the application work. I used react-router for helping with keeping the UI in sync with the URL and kept it at the app.js level and makes it easier to reference to go there to add new additional routes.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+For the design system, I used Material UI as it can save time in development to make the UI nice and clean. It's preloaded with commonly used components. I also added commonly used libraries like Axios for HTTP requests, lodash as a utility helper, and clsx to help with CSS conditioning logic as it's faster and smaller than the alternative classnames library. For ReactJS, we will use a hook-based pattern as it lets you use functions instead of having to switch between classes, high-order components, and render props. It's also better for minifying than the equivalent code of using classes.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+For unit testing, we will go with the standard of using jest and react testing library. It is a very light library to use and I like the guiding principle of having tests resemble the way your software is used.
 
-### `yarn test`
+## Things I Did Not Implement Or Trade-offs
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+On the signup page, I would spend more time on the authentication flow. There was some missing stuff that would make it great for production use. For example, it would be nice to implement login, forgot password, reset the password, and validation checking. It would be great to add technology like firebase auth or auth0 to handle this.
 
-### `yarn build`
+I also was debating if I should use Redux in the application. I decided not to because I did not have to manage a complex global state yet. By not having this it reduces the amount of boilerplate code in the application. I was also looking into having a custom hook for the tic tac toe game and make it headless by design. We can further separate the business logic and UI. A great example of this is https://react-table.tanstack.com/.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The functionality of having the suggest a move button could have been further enhanced to make moves that can help beat the AI. For example, if the AI was at an advantage then the UI will show visual cues on the exact spot to block the AI from winning. I made the trade-off of showing all available spaces that the player can make as a minimal viable product to start.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+For the game page folder, I wished I had more time to add a page to show a selection of games the user can play. It would be great to visually show the user a list of all available games they can play. I was thinking it to have search and pagination to show all web application games. The user would select the game they want to play.
