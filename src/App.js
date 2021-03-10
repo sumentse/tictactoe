@@ -1,7 +1,7 @@
 import { useContext, Suspense, lazy } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { AuthContext } from "./context/Auth";
-import SignUp from "./pages/Signup";
+import SignUp from "./pages/Auth/SignUp";
 import LoadingScreen from "./components/LoadingScreen";
 const Game = lazy(() => import("./pages/Game"));
 
@@ -27,7 +27,7 @@ const App = () => {
     <div>
       <Suspense fallback={<LoadingScreen />}>
         <Switch>
-          <Route path="/signup" component={SignUp} />
+          <Route exact path="/" component={SignUp} />
           <PrivateRoute path="/game" component={Game} />
           <Route path="*">
             <div>Could not find any matches</div>

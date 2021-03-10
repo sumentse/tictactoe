@@ -20,8 +20,13 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   (response) => response,
-  async (error) => {
-    return Promise.reject(error.response.data);
+  (error) => {
+    // handling edge case of network error
+    if (error.message === "Network Error") {
+      return Promise.reject("Network Error");
+    } else {
+      return Promise.reject(error.response);
+    }
   },
 );
 

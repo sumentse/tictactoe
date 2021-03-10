@@ -1,3 +1,8 @@
-export const handleAuthorization = async (userName) => {};
+import { post } from "./base";
 
-export const logoutUser = () => {};
+const Authorization = {
+  signup: (email) => post("/auth", { email }),
+  logout: () => sessionStorage.clear(),
+};
+
+export default Authorization;
