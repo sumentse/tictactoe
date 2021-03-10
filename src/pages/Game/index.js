@@ -90,7 +90,7 @@ const Game = () => {
     const tiles = (data, rowIndex) =>
       data.map((tile, tileIndex) => {
         return (
-          <Grid key={uuid()} item xs={4}>
+          <Grid key={uuid()} item xs={4} data-testid={`tile-row${rowIndex}-col${tileIndex}`}>
             <Paper
               className={clsx(classes.paper, {
                 [classes.availableMoves]: showSuggestMove && !board[rowIndex][tileIndex],
@@ -118,7 +118,7 @@ const Game = () => {
   };
 
   return (
-    <Container className={classes.container}>
+    <Container className={classes.container} data-testid="tic-tac-toe">
       <AppBar position="relative">
         <Toolbar>
           <Typography variant="h6" color="inherit">
