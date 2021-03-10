@@ -67,11 +67,20 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const handleLogOut = () => {
+    AuthAPI.logout();
+    setAuthState((prevAuthState) => ({
+      ...prevAuthState,
+      authenticated: false,
+    }));
+  };
+
   return (
     <Provider
       value={{
         ...authState,
         handleSignUp,
+        handleLogOut,
       }}
     >
       {children}

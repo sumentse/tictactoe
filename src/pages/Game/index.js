@@ -119,14 +119,6 @@ const Game = () => {
 
   return (
     <Container className={classes.container} data-testid="tic-tac-toe">
-      <AppBar position="relative">
-        <Toolbar>
-          <Typography variant="h6" color="inherit">
-            Tic Tac Toe
-          </Typography>
-          <Button>Logout</Button>
-        </Toolbar>
-      </AppBar>
       <Box p={2}>
         <Box mt={1}>
           <Typography className={classes.baseTypography} variant="h5" align="center">

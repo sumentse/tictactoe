@@ -4,6 +4,7 @@ import { AuthContext } from "./context/Auth";
 import SignUp from "./pages/Auth/SignUp";
 import LoadingScreen from "./components/LoadingScreen";
 const Game = lazy(() => import("./pages/Game"));
+const NavBar = lazy(() => import("./components/NavBar"));
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const { authenticated } = useContext(AuthContext);
@@ -22,13 +23,22 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   );
 };
 
+const DefaultRoutes = ({ location }) => {
+  return (
+    <div>
+      <NavBar />
+      <PrivateRoute path="/game" component={Game} />
+    </div>
+  );
+};
+
 const App = () => {
   return (
     <div>
       <Suspense fallback={<LoadingScreen />}>
         <Switch>
           <Route exact path="/" component={SignUp} />
-          <PrivateRoute path="/game" component={Game} />
+          <Route component={DefaultRoutes} />
           <Route path="*">
             <div>Could not find any matches</div>
           </Route>
