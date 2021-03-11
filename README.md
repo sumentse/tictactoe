@@ -12,7 +12,6 @@
 The general architecture of this application is going to be monolithic following a client-server pattern. We will follow the conventional folder structure for building a React application. In order to do this, we will create folders that separate business logic concerns. The structure of this will look like this.
 
 - components
-- pages
 - context
 - pages
 - services
